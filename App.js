@@ -1,20 +1,25 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { useCallback, useState } from "react";
+import { SafeAreaView } from "react-native";
+import RoomScreen from "./screens/RoomScreen";
+import HomeScreen from "./screens/HomeScreen";
 
 export default function App() {
+  const [joinRoom, setJoinRoom] = useState(false);
+
+  const navigate = useCallback((screen) => {
+    setJoinRoom(screen === "RoomScreen");
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#EFF7FF" }}>
       <StatusBar style="auto" />
-    </View>
+
+      {joinRoom ? (
+        <RoomScreen navigate={navigate} />
+      ) : (
+        <HomeScreen navigate={navigate} />
+      )}
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
